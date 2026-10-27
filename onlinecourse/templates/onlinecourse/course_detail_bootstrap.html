@@ -40,7 +40,9 @@
     </nav>
 
     <!-- Page content -->
-   <div class="row">
+ <div class="container-fluid">
+    <h2>{{ course.name }}</h2>
+    <div class="row">
     {% for lesson in course.lesson_set.all %}
         <div class="col-md-6 mb-3">
             <div class="card h-100">
@@ -60,3 +62,4 @@
     </div>
 </body>
 </html>
+
