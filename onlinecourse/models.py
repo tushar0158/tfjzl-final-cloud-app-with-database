@@ -116,18 +116,17 @@ class Question(models.Model):
         return self.question_text
 
     def is_get_score(self, selected_ids):
-        all_answers = self.choice_set.filter(is_correct=True).count()
-        selected_correct = self.choice_set.filter(
-            is_correct=True,
-            id__in=selected_ids
-        ).count()
-        return all_answers == selected_correct
+        correct_ids = set(
+            self.choice_set.filter(is_correct=True).values_list('id', flat=True)
+        )
+        selected_ids = set(map(int, selected_ids))
+        return correct_ids == correct_ids.intersection(selected_ids)
 
 
 # Choice model
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
+    choice_text = models.CharField(max_length=100)
     is_correct = models.BooleanField(default=False)
 
     def __str__(self):
@@ -140,4 +139,4 @@ class Submission(models.Model):
     choices = models.ManyToManyField(Choice)
 
     def __str__(self):
-        return str(self.enrollment)
+        return f"Submission {self.id} for enrollment {self.enrollment.id}"
