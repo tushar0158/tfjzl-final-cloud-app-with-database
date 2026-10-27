@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ course.name }}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'onlinecourse:index' %}">Home</a>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <h2>{{ course.name }}</h2>
+
+        <div class="row">
+            {% for lesson in course.lesson_set.all %}
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            Lesson {{ lesson.order|add:1 }}: {{ lesson.title }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {{ lesson.content }}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p>No lessons available for this course.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
